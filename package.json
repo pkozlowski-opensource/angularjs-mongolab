@@ -1,0 +1,16 @@
+{
+    "author": "https://github.com/angularjs-mongolab/resource-http/graphs/contributors",
+    "name": "resource-http",
+    "version": "0.0.1-SNAPSHOT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/angularjs-mongolab/resource-http.git"
+    },
+    "engines": {
+        "node": ">= 0.8.4"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+}
