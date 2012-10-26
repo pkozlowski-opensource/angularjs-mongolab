@@ -1,9 +1,13 @@
-angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB.API_KEY', 'MONGOLAB.DB_NAME', '$http', 'jsonFilter', function (API_KEY, DB_NAME, $http, jsonFilter) {
+angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', function (MONGOLAB_CONFIG, $http) {
 
   function MmongolabResourceFactory(collectionName) {
 
-    var url = 'https://api.mongolab.com/api/1/databases/' + DB_NAME + '/collections/' + collectionName;
-    var defaultParams = {apiKey:API_KEY};
+    var config = angular.extend({
+      BASE_URL : 'https://api.mongolab.com/api/1/databases/'
+    }, MONGOLAB_CONFIG);
+
+    var url = config.BASE_URL + config.DB_NAME + '/collections/' + collectionName;
+    var defaultParams = {apiKey:config.API_KEY};
 
     var promiseThen = function (httpPromise, successcb, errorcb, isArray) {
       return httpPromise.then(function (response) {
@@ -33,7 +37,7 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
     };
 
     Resource.query = function (queryJson, successcb, errorcb) {
-      var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:jsonFilter(queryJson)} : {};
+      var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
       var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
       return promiseThen(httpPromise, successcb, errorcb, true);
     };
@@ -41,6 +45,14 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
     Resource.getById = function (id, successcb, errorcb) {
       var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
       return promiseThen(httpPromise, successcb, errorcb);
+    };
+
+    Resource.getByIds = function (ids, successcb, errorcb) {
+      var qin = [];
+      angular.forEach(ids, function (id) {
+        qin.push({$oid:id});
+      });
+      return Resource.query({_id:{$in:qin}}, successcb, errorcb);
     };
 
     //instance methods

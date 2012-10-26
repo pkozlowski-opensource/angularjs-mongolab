@@ -1,6 +1,5 @@
 angular.module('test', ['mongolabResourceHttp'])
-  .constant('MONGOLAB.API_KEY', 'testkey')
-  .constant('MONGOLAB.DB_NAME', 'testdb')
+  .constant('MONGOLAB_CONFIG',{API_KEY:  'testkey', DB_NAME: 'testdb'})
   .factory('Project', function ($mongolabResourceHttp) {
     return $mongolabResourceHttp('projects');
   });
@@ -9,8 +8,8 @@ describe('mongolabResourceHttp', function () {
 
   var testProject = {'_id':{'$oid':1}, 'key':'value'};
   var $httpBackend, resultPromise, resultCallBack;
-  var createUrl = function (testPart) {
-    return  'https://api.mongolab.com/api/1/databases/testdb/collections/projects' + testPart + '?apiKey=testkey';
+  var createUrl = function (urlPart, queryPart) {
+    return  'https://api.mongolab.com/api/1/databases/testdb/collections/projects' + urlPart + '?apiKey=testkey' + (queryPart||'');
   };
 
   var successCallBack = function(data) {
@@ -18,10 +17,9 @@ describe('mongolabResourceHttp', function () {
   };
 
   beforeEach(module('test'));
-  beforeEach(inject(function ($injector) {
-    $httpBackend = $injector.get('$httpBackend');
+  beforeEach(inject(function (_$httpBackend_) {
+    $httpBackend = _$httpBackend_;
   }));
-
   beforeEach(function () {
     this.addMatchers({
       toHaveSamePropertiesAs:function (expected) {
@@ -51,6 +49,16 @@ describe('mongolabResourceHttp', function () {
       $httpBackend.flush();
       expect(resultPromise).toHaveSamePropertiesAs(testProject);
       expect(resultPromise).toEqual(resultCallBack);
+    }));
+
+    it("should issue GET request and return an array for getByIds", inject(function (Project) {
+      $httpBackend.expect('GET', createUrl('','&q=%7B%22_id%22%3A%7B%22%24in%22%3A%5B%7B%22%24oid%22%3A1%7D%5D%7D%7D')).respond([testProject] );
+      Project.getByIds([1], successCallBack).then(function(queryResult){
+        resultPromise = queryResult;
+      });
+      $httpBackend.flush();
+      expect(resultPromise[0]).toHaveSamePropertiesAs(testProject);
+      expect(resultPromise.length).toEqual(1);
     }));
   });
 
