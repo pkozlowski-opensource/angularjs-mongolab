@@ -20,7 +20,7 @@ exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots' || 'progress'
-reporter = 'progress';
+reporters = 'dots';
 
 // these are default values, just to show available options
 

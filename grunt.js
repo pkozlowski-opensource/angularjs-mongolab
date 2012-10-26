@@ -47,7 +47,7 @@ module.exports = function (grunt) {
   };
 
   grunt.registerTask('test-watch', 'watch file changes and test', function() {
-    var options = ['--auto-watch', '--reporter=dots', '--no-single-run'];
+    var options = ['--auto-watch', '--reporters=dots', '--no-single-run'];
     runTestacular('start', options);
   });
 
