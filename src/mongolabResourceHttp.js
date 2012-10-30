@@ -60,6 +60,8 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
     Resource.prototype.$id = function () {
       if (this._id && this._id.$oid) {
         return this._id.$oid;
+      } else if (this._id) {
+        return this._id;
       }
     };
 
