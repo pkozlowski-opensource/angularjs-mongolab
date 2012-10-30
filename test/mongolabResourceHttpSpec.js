@@ -51,9 +51,9 @@ describe('mongolabResourceHttp', function () {
       expect(resultPromise).toEqual(resultCallBack);
     }));
 
-    it("should issue GET request and return an array for getByIds", inject(function (Project) {
+    it("should issue GET request and return an array for getByObjectIds", inject(function (Project) {
       $httpBackend.expect('GET', createUrl('','&q=%7B%22_id%22%3A%7B%22%24in%22%3A%5B%7B%22%24oid%22%3A1%7D%5D%7D%7D')).respond([testProject] );
-      Project.getByIds([1], successCallBack).then(function(queryResult){
+      Project.getByObjectIds([1], successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
       $httpBackend.flush();

@@ -47,7 +47,7 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       return promiseThen(httpPromise, successcb, errorcb);
     };
 
-    Resource.getByIds = function (ids, successcb, errorcb) {
+    Resource.getByObjectIds = function (ids, successcb, errorcb) {
       var qin = [];
       angular.forEach(ids, function (id) {
         qin.push({$oid:id});
