@@ -58,3 +58,7 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
     * `resource.$update(successcb, errorcb)`
     * `resource.$saveOrUpdate(successcb, errorcb, updateSuccesscb, updateErrorcb)`
     * `resource.$remove(successcb, errorcb)`
+
+## Contributtors
+
+* Hannes Finck (https://github.com/bluenavajo)
