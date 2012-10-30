@@ -80,6 +80,11 @@ describe('mongolabResourceHttp', function () {
       expect(project.$id()).toEqual('testid');
     }));
 
+    it('should return non standard $id if defined', inject(function (Project) {
+      var project = new Project({_id:123456});
+      expect(project.$id()).toEqual(123456);
+    }));
+
     it('should support saving objects', inject(function (Project) {
       $httpBackend.expect('POST', createUrl('')).respond(testProject);
       new Project({key:'value'}).$save(successCallBack).then(function(data){
