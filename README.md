@@ -56,7 +56,7 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
     * `resource.$id()`
     * `resource.$save(successcb, errorcb)`
     * `resource.$update(successcb, errorcb)`
-    * `resource.$saveOrUpdate(successcb, errorcb, updateSuccesscb, updateErrorcb)`
+    * `resource.$saveOrUpdate(successcb, updateSuccesscb, errorcb, updateErrorcb)`
     * `resource.$remove(successcb, errorcb)`
 
 ## Contributtors

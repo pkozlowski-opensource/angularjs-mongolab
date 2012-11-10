@@ -93,6 +93,22 @@ describe('mongolabResourceHttp', function () {
       flushAndVerify();
     }));
 
+    it('should save a new object when using $saveOrUpdate', inject(function (Project) {
+      $httpBackend.expect('POST', createUrl('')).respond(testProject);
+      new Project({key:'value'}).$saveOrUpdate(successCallBack, angular.noop).then(function(data){
+        resultPromise = data;
+      });
+      flushAndVerify();
+    }));
+
+    it('should update an existing new object when using $saveOrUpdate', inject(function (Project) {
+      $httpBackend.expect('PUT', createUrl('')).respond(testProject);
+      new Project(testProject).$saveOrUpdate(angular.noop, successCallBack).then(function(data){
+        resultPromise = data;
+      });
+      flushAndVerify();
+    }));
+
     it('should support updating objects', inject(function (Project) {
       $httpBackend.expect('PUT', createUrl('/1')).respond(testProject);
       new Project(testProject).$update(successCallBack).then(function(data){
