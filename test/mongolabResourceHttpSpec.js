@@ -102,7 +102,7 @@ describe('mongolabResourceHttp', function () {
     }));
 
     it('should update an existing new object when using $saveOrUpdate', inject(function (Project) {
-      $httpBackend.expect('PUT', createUrl('')).respond(testProject);
+      $httpBackend.expect('PUT', createUrl('/1')).respond(testProject);
       new Project(testProject).$saveOrUpdate(angular.noop, successCallBack).then(function(data){
         resultPromise = data;
       });
