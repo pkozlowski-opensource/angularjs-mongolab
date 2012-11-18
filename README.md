@@ -48,8 +48,8 @@ app.controller('AppController', function ($scope, Project) {
 Since this $resource-like implementation is based on `$http` it accepts callbacks in its methods calls and returns a promise.
 Each resource created with the `$mongolabResourceHttp` will be equipped with the following methods:
 * on the class level:
-    * `Resource.all(successcb, errorcb)`
-    * `Resource.query(criteriaObject, successcb, errorcb)`
+    * `Resource.all([sortCriteria], successcb, errorcb)`
+    * `Resource.query(criteriaObject,[sortCriteria], successcb, errorcb)`
     * `Resource.getById(idString, successcb, errorcb)`
     * `Resource.getByIds(idsArray, successcb, errorcb)`
 * on an instance level:

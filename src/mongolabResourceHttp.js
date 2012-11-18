@@ -32,13 +32,17 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       angular.extend(this, data);
     };
 
-    Resource.all = function (cb, errorcb) {
-      return Resource.query({}, cb, errorcb);
+    Resource.all = function (sortOptions, cb, errorcb) {
+      /* allow sort params */
+      if(typeof(sortOptions) === 'function') { errorcb = cb; cb = sortOptions; sortOptions = {}; }
+      return Resource.query({}, sortOptions, cb, errorcb);
     };
 
-    Resource.query = function (queryJson, successcb, errorcb) {
+    Resource.query = function (queryJson, sortOptions, successcb, errorcb) {
+      if(typeof(sortOptions) === 'function') { errorcb = successcb; successcb = sortOptions; sortOptions = {}; }
       var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
-      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
+      var sortparams = angular.isObject(sortOptions)&&!angular.equals(sortOptions, {}) ? {s:JSON.stringify(sortOptions)} : {};
+      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params, sortparams)});
       return promiseThen(httpPromise, successcb, errorcb, true);
     };
 
