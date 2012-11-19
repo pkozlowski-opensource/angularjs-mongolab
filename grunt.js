@@ -52,7 +52,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', 'run testacular tests', function () {
-    var options = ['--single-run', '--no-auto-watch', '--reporter=dots'];
+    var options = ['--single-run', '--no-auto-watch', '--reporters=dots'];
     if (process.env.TRAVIS) {
       options.push('--browsers=Firefox');
     }

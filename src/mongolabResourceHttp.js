@@ -32,12 +32,37 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       angular.extend(this, data);
     };
 
-    Resource.all = function (cb, errorcb) {
-      return Resource.query({}, cb, errorcb);
+    Resource.all = function (options, cb, errorcb) {
+      /* allow sort params */
+      if(typeof(options) === 'function') { errorcb = cb; cb = options; options = {}; }
+      return Resource.query({}, options, cb, errorcb);
     };
 
-    Resource.query = function (queryJson, successcb, errorcb) {
+    var setParams = function(keyname, key, options) {
+      var params = {};
+      if (options[keyname]) {
+        if (angular.isObject(options[keyname])) {
+          params[key] = JSON.stringify(options[keyname]);
+        } else {
+          params[key] = options[keyname];
+        }
+      }
+      return params;
+    };
+
+    Resource.query = function (queryJson, options, successcb, errorcb) {
+      if(typeof(options) === 'function') { errorcb = successcb; successcb = options; options = {}; }
       var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
+      // set optional params
+      if(angular.isObject(options) && !angular.equals(options, {})) {
+        angular.extend(params, setParams('sort','s', options));
+        angular.extend(params, setParams('limit','l', options));
+        angular.extend(params, setParams('count','c', options));
+        angular.extend(params, setParams('fields','f', options));
+        angular.extend(params, setParams('skip','sk', options));
+        angular.extend(params, setParams('findOne','fo', options));
+      }
+
       var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
       return promiseThen(httpPromise, successcb, errorcb, true);
     };
