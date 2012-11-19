@@ -48,8 +48,8 @@ app.controller('AppController', function ($scope, Project) {
 Since this $resource-like implementation is based on `$http` it accepts callbacks in its methods calls and returns a promise.
 Each resource created with the `$mongolabResourceHttp` will be equipped with the following methods:
 * on the class level:
-    * `Resource.all([sortCriteria], successcb, errorcb)`
-    * `Resource.query(criteriaObject,[sortCriteria], successcb, errorcb)`
+    * `Resource.all([options], successcb, errorcb)`
+    * `Resource.query(criteriaObject,[options], successcb, errorcb)`
     * `Resource.getById(idString, successcb, errorcb)`
     * `Resource.getByIds(idsArray, successcb, errorcb)`
 * on an instance level:
@@ -58,6 +58,16 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
     * `resource.$update(successcb, errorcb)`
     * `resource.$saveOrUpdate(successcb, updateSuccesscb, errorcb, updateErrorcb)`
     * `resource.$remove(successcb, errorcb)`
+
+Resource `all` and `query` optional options:
+  * `sort`: ex `Resource.all({ sort: {priority: 1} }, cb);`
+  * `limit`: ex `Resource.all({ limit: 10 }, cb);`
+  * `fields`: 
+    { 1 - Includes field, 0 - excludes field }
+    ex `Resource.all({ fields: {name: 1, notes: 0} }, cb);`
+  * `count`: ex `Resource.all({ count: true }, cb);`
+  * `skip`: ex `Resource.all({ skip: 10 }, cb);`
+  * `findOne`: ex `Resource.query({name: 'Foo'}, {findOne: true}, cb);`
 
 ## Contributtors
 

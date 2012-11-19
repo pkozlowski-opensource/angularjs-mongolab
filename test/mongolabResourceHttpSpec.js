@@ -42,7 +42,29 @@ describe('mongolabResourceHttp', function () {
 
     it("should issue GET request with sort options", inject(function (Project) {
       $httpBackend.expect('GET', createUrl('','&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
-      Project.query({}, {priority: 1}, successCallBack).then(function(queryResult){
+      Project.query({}, {sort: {priority: 1}}, successCallBack).then(function(queryResult){
+        resultPromise = queryResult;
+      });
+      $httpBackend.flush();
+      expect(resultPromise.length).toEqual(1);
+      expect(resultPromise[0]).toHaveSamePropertiesAs(testProject);
+      expect(resultPromise).toEqual(resultCallBack);
+    }));
+
+    it("should issue GET request with limit options", inject(function (Project) {
+      $httpBackend.expect('GET', createUrl('','&l=10')).respond([testProject]);
+      Project.query({}, {limit: 10}, successCallBack).then(function(queryResult){
+        resultPromise = queryResult;
+      });
+      $httpBackend.flush();
+      expect(resultPromise.length).toEqual(1);
+      expect(resultPromise[0]).toHaveSamePropertiesAs(testProject);
+      expect(resultPromise).toEqual(resultCallBack);
+    }));
+
+    it("should issue GET request with sort and limit options", inject(function (Project) {
+      $httpBackend.expect('GET', createUrl('','&l=10&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
+      Project.query({}, {sort: {priority: 1}, limit: 10}, successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
       $httpBackend.flush();
@@ -53,7 +75,7 @@ describe('mongolabResourceHttp', function () {
 
     it("should issue GET all with sort options", inject(function (Project) {
       $httpBackend.expect('GET', createUrl('','&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
-      Project.all({priority: 1}, successCallBack).then(function(queryResult){
+      Project.all({sort: {priority: 1}}, successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
       $httpBackend.flush();
