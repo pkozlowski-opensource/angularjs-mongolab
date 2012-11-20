@@ -57,22 +57,12 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       if(angular.isObject(options) && !angular.equals(options, {})) {
         angular.extend(params, setParams('sort','s', options));
         angular.extend(params, setParams('limit','l', options));
-        angular.extend(params, setParams('count','c', options));
         angular.extend(params, setParams('fields','f', options));
         angular.extend(params, setParams('skip','sk', options));
-        angular.extend(params, setParams('findOne','fo', options));
       }
 
       var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
       return promiseThen(httpPromise, successcb, errorcb, true);
-    };
-
-    Resource.count = function(queryJson, successcb, errorcb) {
-      return Resource.query(queryJson, {count: true}, successcb, errorcb);
-    };
-
-    Resource.findOne = function(queryJson, successcb, errorcb) {
-      return Resource.query(queryJson, {findOne: true}, successcb, errorcb);
     };
 
     Resource.getById = function (id, successcb, errorcb) {

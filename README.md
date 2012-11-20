@@ -50,7 +50,6 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
 * on the class level:
     * `Resource.all([options], successcb, errorcb)`
     * `Resource.query(criteriaObject,[options], successcb, errorcb)`
-    * `Resource.count(criteriaObject, successcb, errorcb)`
     * `Resource.findOne(criteriaObject, successcb, errorcb)`
     * `Resource.getById(idString, successcb, errorcb)`
     * `Resource.getByIds(idsArray, successcb, errorcb)`
@@ -67,9 +66,7 @@ Resource `all` and `query` supported options:
   * `fields`: 
     { 1 - Includes field, 0 - excludes field }
     ex `Resource.all({ fields: {name: 1, notes: 0} }, cb);`
-  * `count`: ex `Resource.all({ count: true }, cb);`
   * `skip`: ex `Resource.all({ skip: 10 }, cb);`
-  * `findOne`: ex `Resource.query({name: 'Foo'}, {findOne: true}, cb);`
 
 ## Contributtors
 
