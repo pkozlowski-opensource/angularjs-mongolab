@@ -28,16 +28,6 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       });
     };
 
-    var Resource = function (data) {
-      angular.extend(this, data);
-    };
-
-    Resource.all = function (options, cb, errorcb) {
-      /* allow sort params */
-      if(typeof(options) === 'function') { errorcb = cb; cb = options; options = {}; }
-      return Resource.query({}, options, cb, errorcb);
-    };
-
     var setParams = function(keyname, key, options) {
       var params = {};
       if (options[keyname]) {
@@ -48,6 +38,16 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
         }
       }
       return params;
+    };
+
+    var Resource = function (data) {
+      angular.extend(this, data);
+    };
+
+    Resource.all = function (options, cb, errorcb) {
+      /* allow sort params */
+      if(typeof(options) === 'function') { errorcb = cb; cb = options; options = {}; }
+      return Resource.query({}, options, cb, errorcb);
     };
 
     Resource.query = function (queryJson, options, successcb, errorcb) {
@@ -65,6 +65,14 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
 
       var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
       return promiseThen(httpPromise, successcb, errorcb, true);
+    };
+
+    Resource.count = function(queryJson, successcb, errorcb) {
+      return Resource.query(queryJson, {count: true}, successcb, errorcb);
+    };
+
+    Resource.findOne = function(queryJson, successcb, errorcb) {
+      return Resource.query(queryJson, {findOne: true}, successcb, errorcb);
     };
 
     Resource.getById = function (id, successcb, errorcb) {
