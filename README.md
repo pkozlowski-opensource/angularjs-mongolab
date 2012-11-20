@@ -68,6 +68,11 @@ Resource `all` and `query` supported options:
     ex `Resource.all({ fields: {name: 1, notes: 0} }, cb);`
   * `skip`: ex `Resource.all({ skip: 10 }, cb);`
 
+## Contributting
+
+New contributions are always welcomed. Just open a pull request making sure that it contains tests, doc updates.
+Checked if the Travis-CI build is alright.
+
 ## Contributtors
 
 * Hannes Finck (https://github.com/bluenavajo)
