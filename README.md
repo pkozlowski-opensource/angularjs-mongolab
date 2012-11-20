@@ -59,7 +59,7 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
     * `resource.$saveOrUpdate(successcb, updateSuccesscb, errorcb, updateErrorcb)`
     * `resource.$remove(successcb, errorcb)`
 
-Resource `all` and `query` optional options:
+Resource `all` and `query` supported options:
   * `sort`: ex `Resource.all({ sort: {priority: 1} }, cb);`
   * `limit`: ex `Resource.all({ limit: 10 }, cb);`
   * `fields`: 
@@ -72,3 +72,4 @@ Resource `all` and `query` optional options:
 ## Contributtors
 
 * Hannes Finck (https://github.com/bluenavajo)
+* Tom Wilson (https://github.com/twilson63)
