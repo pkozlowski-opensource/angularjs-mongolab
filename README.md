@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/angularjs-mongolab/resource-http.png)](http://travis-ci.org/angularjs-mongolab/resource-http)
 
-# Promise-aware MongoLab $resource for [AngularJS](http://angularjs.org/)
+# Promise-aware [MongoLab](https://mongolab.com/home) $resource for [AngularJS](http://angularjs.org/)
 ***
 
 ##Introduction
@@ -50,7 +50,6 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
 * on the class level:
     * `Resource.all([options], successcb, errorcb)`
     * `Resource.query(criteriaObject,[options], successcb, errorcb)`
-    * `Resource.findOne(criteriaObject, successcb, errorcb)`
     * `Resource.getById(idString, successcb, errorcb)`
     * `Resource.getByIds(idsArray, successcb, errorcb)`
 * on an instance level:
