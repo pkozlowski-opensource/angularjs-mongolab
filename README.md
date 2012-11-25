@@ -37,7 +37,7 @@ app.factory('Project', function ($mongolabResourceHttp) {
 As soon as the above is done you are ready to inject and use a freshly created resource in your services and controllers:
 ```JavaScript
 app.controller('AppController', function ($scope, Project) {
-  Project.query(function(projects){
+  Project.all(function(projects){
      $scope.projects = projects;
   });
 });
