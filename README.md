@@ -26,7 +26,7 @@ Configuration parameters needs to be specified in a constant `MONGOLAB_CONFIG` o
 ```JavaScript
 var app = angular.module('app', ['mongolabResourceHttp']);
 
-app.constant('MONGOLAB_CONFIG',{API_KEY:'[your key goes here]', DB_NAME:'angularjs'});
+app.constant('MONGOLAB_CONFIG',{API_KEY:'your key goes here', DB_NAME:'angularjs'});
 ```
 Then, creating new resources is very, very easy and boils down to calling `$mongolabResource` with a MongoDB collection name:
 ```JavaScript
