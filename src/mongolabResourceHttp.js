@@ -65,6 +65,20 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       return promiseThen(httpPromise, successcb, errorcb, true);
     };
 
+    Resource.count = function (queryJson, successcb, errorcb) {
+      var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
+      var httpPromise = $http.get(url, {
+        params: angular.extend({}, defaultParams, params, {c: true})
+      });
+      return httpPromise.then(function(response) {
+        (successcb || angular.noop)(response.data, response.status, response.headers, response.config);
+        return response.data;
+      }, function(response) {
+        (successcb || angular.noop)(undefined, response.status, response.headers, response.config);
+        return undefined;
+      });
+    };
+
     Resource.getById = function (id, successcb, errorcb) {
       var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
       return promiseThen(httpPromise, successcb, errorcb);

@@ -114,6 +114,20 @@ describe('mongolabResourceHttp', function () {
       expect(resultPromise[0]).toHaveSamePropertiesAs(testProject);
       expect(resultPromise.length).toEqual(1);
     }));
+
+    it('should issue GET request and return a single number for count', inject(function (Project) {
+      var countResult, countCBResult;
+      $httpBackend.expect('GET', createUrl('', '&c=true&q=%7B%22k%22%3A%22v%22%7D')).respond(200, 5);
+      Project.count({k:'v'},function (result) {
+        countCBResult = result;
+      }, angular.noop).then(function (result) {
+          countResult = result;
+      });
+
+      $httpBackend.flush();
+      expect(countResult).toEqual(5);
+      expect(countCBResult).toEqual(5);
+    }));
   });
 
   describe('instance methods', function () {

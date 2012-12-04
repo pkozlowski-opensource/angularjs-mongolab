@@ -50,6 +50,7 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
 * on the class level:
     * `Resource.all([options], successcb, errorcb)`
     * `Resource.query(criteriaObject,[options], successcb, errorcb)`
+    * `Resource.count(criteriaObject, successcb, errorcb)`
     * `Resource.getById(idString, successcb, errorcb)`
     * `Resource.getByIds(idsArray, successcb, errorcb)`
 * on an instance level:
