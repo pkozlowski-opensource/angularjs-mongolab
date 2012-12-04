@@ -9,7 +9,7 @@ This repository hosts a Mongolab [$resource](http://docs.angularjs.org/api/ngRes
 It is based on [$http](http://docs.angularjs.org/api/ng.$http) and is working with [promises]().
 
 This is a small wrapper around the AngularJS $http that makes setting up and working with MongoLab easy. It has an interface very similar to $resource but works with promises.
-It significient reduces the amount of boilerplate code one needs to write when interacting with MongoDB / MongoLab (especially around URLs handling, resource objects creation and identifiers handling).
+It significantly reduces the amount of boilerplate code one needs to write when interacting with MongoDB / MongoLab (especially around URLs handling, resource objects creation and identifiers handling).
 
 ## Examples
 To see it in action check this plunker: (http://embed.plnkr.co/Y8sg4V).
