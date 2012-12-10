@@ -41,43 +41,42 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       angular.extend(this, data);
     };
 
+    Resource.query = function (queryJson, options, successcb, errorcb) {
+
+      var prepareOptions = function(options) {
+
+        var optionsMapping = {sort: 's', limit: 'l', fields: 'f', skip: 'sk'};
+        var optionsTranslated = {};
+
+        if (options && !angular.equals(options, {})) {
+          angular.forEach(optionsMapping, function (targetOption, sourceOption) {
+            if (angular.isDefined(options[sourceOption])) {
+              if (angular.isObject(options[sourceOption])) {
+                optionsTranslated[targetOption] = JSON.stringify(options[sourceOption]);
+              } else {
+                optionsTranslated[targetOption] = options[sourceOption];
+              }
+            }
+          });
+        }
+        return optionsTranslated;
+      };
+
+      if(angular.isFunction(options)) { errorcb = successcb; successcb = options; options = {}; }
+
+      var requestParams = angular.extend({}, defaultParams, preparyQueryParam(queryJson), prepareOptions(options));
+      var httpPromise = $http.get(collectionUrl, {params:requestParams});
+      return promiseThen(httpPromise, successcb, errorcb, resourcesArrayRespTransform);
+    };
+
     Resource.all = function (options, successcb, errorcb) {
       if(angular.isFunction(options)) { errorcb = successcb; successcb = options; options = {}; }
       return Resource.query({}, options, successcb, errorcb);
     };
 
-    Resource.query = function (queryJson, options, successcb, errorcb) {
-
-      var setParams = function(keyname, key, options) {
-        var params = {};
-        if (options[keyname]) {
-          if (angular.isObject(options[keyname])) {
-            params[key] = JSON.stringify(options[keyname]);
-          } else {
-            params[key] = options[keyname];
-          }
-        }
-        return params;
-      };
-
-      if(angular.isFunction(options)) { errorcb = successcb; successcb = options; options = {}; }
-      var params = preparyQueryParam(queryJson);
-      // translate options
-      if(angular.isObject(options) && !angular.equals(options, {})) {
-        angular.extend(params, setParams('sort','s', options));
-        angular.extend(params, setParams('limit','l', options));
-        angular.extend(params, setParams('fields','f', options));
-        angular.extend(params, setParams('skip','sk', options));
-      }
-
-      var httpPromise = $http.get(collectionUrl, {params:angular.extend({}, defaultParams, params)});
-      return promiseThen(httpPromise, successcb, errorcb, resourcesArrayRespTransform);
-    };
-
     Resource.count = function (queryJson, successcb, errorcb) {
-      var params = preparyQueryParam(queryJson);
       var httpPromise = $http.get(collectionUrl, {
-        params: angular.extend({}, defaultParams, params, {c: true})
+        params: angular.extend({}, defaultParams, preparyQueryParam(queryJson), {c: true})
       });
       return promiseThen(httpPromise, successcb, errorcb, function(data){
         return data;
