@@ -6,20 +6,25 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       BASE_URL : 'https://api.mongolab.com/api/1/databases/'
     }, MONGOLAB_CONFIG);
 
-    var url = config.BASE_URL + config.DB_NAME + '/collections/' + collectionName;
+    var dbUrl = config.BASE_URL + config.DB_NAME;
+    var collectionUrl = dbUrl + '/collections/' + collectionName;
     var defaultParams = {apiKey:config.API_KEY};
 
-    var promiseThen = function (httpPromise, successcb, errorcb, isArray) {
+    var resourceRespTransform = function(data) {
+       return new Resource(data);
+    };
+
+    var resourcesArrayRespTransform = function(data) {
+      var result = [];
+      for (var i = 0; i < data.length; i++) {
+        result.push(new Resource(data[i]));
+      }
+      return result;
+    };
+
+    var promiseThen = function (httpPromise, successcb, errorcb, fransformFn) {
       return httpPromise.then(function (response) {
-        var result;
-        if (isArray) {
-          result = [];
-          for (var i = 0; i < response.data.length; i++) {
-            result.push(new Resource(response.data[i]));
-          }
-        } else {
-          result = new Resource(response.data);
-        }
+        var result = fransformFn(response.data);
         (successcb || angular.noop)(result, response.status, response.headers, response.config);
         return result;
       }, function (response) {
@@ -28,32 +33,36 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       });
     };
 
-    var setParams = function(keyname, key, options) {
-      var params = {};
-      if (options[keyname]) {
-        if (angular.isObject(options[keyname])) {
-          params[key] = JSON.stringify(options[keyname]);
-        } else {
-          params[key] = options[keyname];
-        }
-      }
-      return params;
+    var preparyQueryParam = function(queryJson) {
+      return angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
     };
 
     var Resource = function (data) {
       angular.extend(this, data);
     };
 
-    Resource.all = function (options, cb, errorcb) {
-      /* allow sort params */
-      if(typeof(options) === 'function') { errorcb = cb; cb = options; options = {}; }
-      return Resource.query({}, options, cb, errorcb);
+    Resource.all = function (options, successcb, errorcb) {
+      if(angular.isFunction(options)) { errorcb = successcb; successcb = options; options = {}; }
+      return Resource.query({}, options, successcb, errorcb);
     };
 
     Resource.query = function (queryJson, options, successcb, errorcb) {
-      if(typeof(options) === 'function') { errorcb = successcb; successcb = options; options = {}; }
-      var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
-      // set optional params
+
+      var setParams = function(keyname, key, options) {
+        var params = {};
+        if (options[keyname]) {
+          if (angular.isObject(options[keyname])) {
+            params[key] = JSON.stringify(options[keyname]);
+          } else {
+            params[key] = options[keyname];
+          }
+        }
+        return params;
+      };
+
+      if(angular.isFunction(options)) { errorcb = successcb; successcb = options; options = {}; }
+      var params = preparyQueryParam(queryJson);
+      // translate options
       if(angular.isObject(options) && !angular.equals(options, {})) {
         angular.extend(params, setParams('sort','s', options));
         angular.extend(params, setParams('limit','l', options));
@@ -61,27 +70,34 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
         angular.extend(params, setParams('skip','sk', options));
       }
 
-      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
-      return promiseThen(httpPromise, successcb, errorcb, true);
+      var httpPromise = $http.get(collectionUrl, {params:angular.extend({}, defaultParams, params)});
+      return promiseThen(httpPromise, successcb, errorcb, resourcesArrayRespTransform);
     };
 
     Resource.count = function (queryJson, successcb, errorcb) {
-      var params = angular.isObject(queryJson)&&!angular.equals(queryJson,{}) ? {q:JSON.stringify(queryJson)} : {};
-      var httpPromise = $http.get(url, {
+      var params = preparyQueryParam(queryJson);
+      var httpPromise = $http.get(collectionUrl, {
         params: angular.extend({}, defaultParams, params, {c: true})
       });
-      return httpPromise.then(function(response) {
-        (successcb || angular.noop)(response.data, response.status, response.headers, response.config);
-        return response.data;
-      }, function(response) {
-        (successcb || angular.noop)(undefined, response.status, response.headers, response.config);
-        return undefined;
+      return promiseThen(httpPromise, successcb, errorcb, function(data){
+        return data;
+      });
+    };
+
+    Resource.distinct = function (field, queryJson, successcb, errorcb) {
+      var httpPromise = $http.post(dbUrl + '/runCommand', angular.extend({}, queryJson || {}, {
+        distinct:collectionName,
+        key:field}), {
+          params:defaultParams
+        });
+      return promiseThen(httpPromise, successcb, errorcb, function(data){
+        return data.values;
       });
     };
 
     Resource.getById = function (id, successcb, errorcb) {
-      var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
-      return promiseThen(httpPromise, successcb, errorcb);
+      var httpPromise = $http.get(collectionUrl + '/' + id, {params:defaultParams});
+      return promiseThen(httpPromise, successcb, errorcb, resourceRespTransform);
     };
 
     Resource.getByObjectIds = function (ids, successcb, errorcb) {
@@ -103,18 +119,18 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
     };
 
     Resource.prototype.$save = function (successcb, errorcb) {
-      var httpPromise = $http.post(url, this, {params:defaultParams});
-      return promiseThen(httpPromise, successcb, errorcb);
+      var httpPromise = $http.post(collectionUrl, this, {params:defaultParams});
+      return promiseThen(httpPromise, successcb, errorcb, resourceRespTransform);
     };
 
     Resource.prototype.$update = function (successcb, errorcb) {
-      var httpPromise = $http.put(url + "/" + this.$id(), angular.extend({}, this, {_id:undefined}), {params:defaultParams});
-      return promiseThen(httpPromise, successcb, errorcb);
+      var httpPromise = $http.put(collectionUrl + "/" + this.$id(), angular.extend({}, this, {_id:undefined}), {params:defaultParams});
+      return promiseThen(httpPromise, successcb, errorcb, resourceRespTransform);
     };
 
     Resource.prototype.$remove = function (successcb, errorcb) {
-      var httpPromise = $http['delete'](url + "/" + this.$id(), {params:defaultParams});
-      return promiseThen(httpPromise, successcb, errorcb);
+      var httpPromise = $http['delete'](collectionUrl + "/" + this.$id(), {params:defaultParams});
+      return promiseThen(httpPromise, successcb, errorcb, resourceRespTransform);
     };
 
     Resource.prototype.$saveOrUpdate = function (savecb, updatecb, errorSavecb, errorUpdatecb) {
