@@ -48,7 +48,7 @@ describe('mongolabResourceHttp', function () {
     }));
 
     it("should issue GET request with sort options", inject(function (Project) {
-      $httpBackend.expect('GET', collectionUrl('','&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
+      $httpBackend.expect('GET', collectionUrl('','&s=%7B%22priority%22:1%7D')).respond([testProject]);
       Project.query({}, {sort: {priority: 1}}, successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
@@ -70,7 +70,7 @@ describe('mongolabResourceHttp', function () {
     }));
 
     it("should issue GET request with sort and limit options", inject(function (Project) {
-      $httpBackend.expect('GET', collectionUrl('','&l=10&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
+      $httpBackend.expect('GET', collectionUrl('','&l=10&s=%7B%22priority%22:1%7D')).respond([testProject]);
       Project.query({}, {sort: {priority: 1}, limit: 10}, successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
@@ -81,7 +81,7 @@ describe('mongolabResourceHttp', function () {
     }));
 
     it("should issue GET all with sort options", inject(function (Project) {
-      $httpBackend.expect('GET', collectionUrl('','&s=%7B%22priority%22%3A1%7D')).respond([testProject]);
+      $httpBackend.expect('GET', collectionUrl('','&s=%7B%22priority%22:1%7D')).respond([testProject]);
       Project.all({sort: {priority: 1}}, successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
@@ -123,7 +123,7 @@ describe('mongolabResourceHttp', function () {
     }));
 
     it("should issue GET request and return an array for getByObjectIds", inject(function (Project) {
-      $httpBackend.expect('GET', collectionUrl('','&q=%7B%22_id%22%3A%7B%22%24in%22%3A%5B%7B%22%24oid%22%3A1%7D%5D%7D%7D')).respond([testProject] );
+      $httpBackend.expect('GET', collectionUrl('','&q=%7B%22_id%22:%7B%22$in%22:%5B%7B%22$oid%22:1%7D%5D%7D%7D')).respond([testProject] );
       Project.getByObjectIds([1], successCallBack).then(function(queryResult){
         resultPromise = queryResult;
       });
@@ -134,7 +134,7 @@ describe('mongolabResourceHttp', function () {
 
     it('should issue GET request and return a single number for count', inject(function (Project) {
       var countResult, countCBResult;
-      $httpBackend.expect('GET', collectionUrl('', '&c=true&q=%7B%22k%22%3A%22v%22%7D')).respond(200, 5);
+      $httpBackend.expect('GET', collectionUrl('', '&c=true&q=%7B%22k%22:%22v%22%7D')).respond(200, 5);
       Project.count({k:'v'},function (result) {
         countCBResult = result;
       }, angular.noop).then(function (result) {
