@@ -1,18 +1,17 @@
 [![Build Status](https://secure.travis-ci.org/angularjs-mongolab/resource-http.png)](http://travis-ci.org/angularjs-mongolab/resource-http)
 
 # Promise-aware [MongoLab](https://mongolab.com/home) $resource for [AngularJS](http://angularjs.org/)
-***
 
 ##Introduction
 
 This repository hosts a Mongolab [$resource](http://docs.angularjs.org/api/ngResource.$resource)-like adapter for [AngularJS](http://angularjs.org/).
-It is based on [$http](http://docs.angularjs.org/api/ng.$http) and is working with [promises]().
+It is based on [$http](http://docs.angularjs.org/api/ng.$http) and is working with [promises](https://docs.angularjs.org/api/ng/service/$q).
 
 This is a small wrapper around the AngularJS $http that makes setting up and working with MongoLab easy. It has an interface very similar to $resource but works with promises.
 It significantly reduces the amount of boilerplate code one needs to write when interacting with MongoDB / MongoLab (especially around URLs handling, resource objects creation and identifiers handling).
 
 ## Examples
-To see it in action check this plunker: (http://embed.plnkr.co/Y8sg4V).
+To see it in action check this plunker: (http://plnkr.co/edit/Bb8GSA?p=preview).
 
 ## Usage instructions
 
