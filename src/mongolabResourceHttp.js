@@ -1,4 +1,4 @@
-angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', function (MONGOLAB_CONFIG, $http) {
+angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
 
   function MmongolabResourceFactory(collectionName) {
 
@@ -29,7 +29,7 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
         return result;
       }, function (response) {
         (errorcb || angular.noop)(undefined, response.status, response.headers, response.config);
-        return undefined;
+        return $q.reject(response.data);
       });
     };
 
