@@ -8,6 +8,7 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
 
     var dbUrl = config.BASE_URL + config.DB_NAME;
     var collectionUrl = dbUrl + '/collections/' + collectionName;
+    var cmdUrl = dbUrl + '/runCommand?apiKey=' + config.API_KEY;
     var defaultParams = {apiKey:config.API_KEY};
 
     var resourceRespTransform = function(data) {
@@ -67,6 +68,15 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       var requestParams = angular.extend({}, defaultParams, preparyQueryParam(queryJson), prepareOptions(options));
       var httpPromise = $http.get(collectionUrl, {params:requestParams});
       return promiseThen(httpPromise, successcb, errorcb, resourcesArrayRespTransform);
+    };
+    
+    Resource.runCmd = function (queryJson, successcb, errorcb) {
+      return $http({
+        url: cmdUrl,
+        method: "POST",
+        data: queryJson
+        })
+        .then(successcb, errorcb);
     };
 
     Resource.all = function (options, successcb, errorcb) {
