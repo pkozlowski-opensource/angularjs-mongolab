@@ -9,7 +9,6 @@ describe('mongolabResourceHttp', function () {
   var MONGLAB_DB_URL_PREFIX = 'https://api.mongolab.com/api/1/databases/testdb/';
 
   var testProject = {'_id':{'$oid':1}, 'key':'value'};
-  var testQuery = {'distinct': 'project'};
   var $httpBackend, resultPromise, resultCallBack;
 
   var collectionUrl = function (urlPart, queryPart) {
@@ -112,8 +111,6 @@ describe('mongolabResourceHttp', function () {
       expect(resultPromise[0]).toHaveSamePropertiesAs(testProject);
       expect(resultPromise).toEqual(resultCallBack);
     }));
-
-
 
     it('should issue GET request for distinct calls', inject(function (Project) {
       $httpBackend.expect('POST', runCommandUrl()).respond({values : ['value']});
