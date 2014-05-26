@@ -80,6 +80,16 @@ describe('mongolabResourceHttp', function () {
       expect(resultPromise).toEqual(resultCallBack);
     }));
 
+    it('should return the response of the /runcommand call', inject(function (Project) {
+        $httpBackend.expect('POST', runCommandUrl()).respond({values : ['value']});
+        Project.runCommand({distinct:'name'}, successCallBack).then(function(queryResult){
+            resultPromise = queryResult;
+        });
+        $httpBackend.flush();
+        expect(resultPromise).toEqual({values : ['value']});
+        expect(resultPromise).toEqual(resultCallBack);
+    }));
+
     it("should issue GET all with sort options", inject(function (Project) {
       $httpBackend.expect('GET', collectionUrl('','&s=%7B%22priority%22:1%7D')).respond([testProject]);
       Project.all({sort: {priority: 1}}, successCallBack).then(function(queryResult){
