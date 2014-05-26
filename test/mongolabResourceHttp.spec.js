@@ -81,7 +81,7 @@ describe('mongolabResourceHttp', function () {
             expect(resultPromise).toEqual(resultCallBack);
         }));
 
-        it('should return the response of the /runcommand call', inject(function (Project) {
+        it('should return the response of the runcommand call', inject(function (Project) {
             $httpBackend.expect('POST', runCommandUrl()).respond({values: ['value']});
             Project.runCommand({distinct: 'name'}, successCallBack).then(function (queryResult) {
                 resultPromise = queryResult;
