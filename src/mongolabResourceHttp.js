@@ -1,4 +1,4 @@
-angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
+angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', '$q', function (MONGOLAB_CONFIG, $http, $q, $log) {
 
   function MmongolabResourceFactory(collectionName) {
 
@@ -8,6 +8,7 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
 
     var dbUrl = config.BASE_URL + config.DB_NAME;
     var collectionUrl = dbUrl + '/collections/' + collectionName;
+    var commandUrl = dbUrl + '/runCommand?apiKey=' + config.API_KEY;
     var defaultParams = {apiKey:config.API_KEY};
 
     var resourceRespTransform = function(data) {
@@ -67,6 +68,17 @@ angular.module('mongolabResourceHttp', []).factory('$mongolabResourceHttp', ['MO
       var requestParams = angular.extend({}, defaultParams, preparyQueryParam(queryJson), prepareOptions(options));
       var httpPromise = $http.get(collectionUrl, {params:requestParams});
       return promiseThen(httpPromise, successcb, errorcb, resourcesArrayRespTransform);
+    };
+
+    Resource.runCommand = function (queryJson, successcb, errorcb) {
+        var httpPromise = $http({
+            url: commandUrl,
+            method: "POST",
+            data: queryJson
+        })
+        return promiseThen(httpPromise, successcb, errorcb, function(data){
+            return data;
+        });
     };
 
     Resource.all = function (options, successcb, errorcb) {
