@@ -36,29 +36,29 @@ app.factory('Project', function ($mongolabResourceHttp) {
 As soon as the above is done you are ready to inject and use a freshly created resource in your services and controllers:
 ```JavaScript
 app.controller('AppController', function ($scope, Project) {
-  Project.all(function(projects){
-     $scope.projects = projects;
+  Project.all().then(function(projects){
+    $scope.projects = projects;
   });
 });
 ```
 
 ## Documentation
 
-Since this $resource-like implementation is based on `$http` it accepts callbacks in its methods calls and returns a promise.
+Since this $resource-like implementation is based on `$http` and returns a promise.
 Each resource created with the `$mongolabResourceHttp` will be equipped with the following methods:
 * on the class level:
-    * `Resource.all([options], successcb, errorcb)`
-    * `Resource.query(criteriaObject,[options], successcb, errorcb)`
-    * `Resource.getById(idString, successcb, errorcb)`
-    * `Resource.getByIds(idsArray, successcb, errorcb)`
-    * `Resource.count(criteriaObject, successcb, errorcb)`
-    * `Resource.distinct(fieldName, criteriaObject, successcb, errorcb)`
+    * `Resource.all([options])`
+    * `Resource.query(criteriaObject,[options])`
+    * `Resource.getById(idString)`
+    * `Resource.getByIds(idsArray)`
+    * `Resource.count(criteriaObject)`
+    * `Resource.distinct(fieldName, criteriaObject)`
 * on an instance level:
     * `resource.$id()`
-    * `resource.$save(successcb, errorcb)`
-    * `resource.$update(successcb, errorcb)`
-    * `resource.$saveOrUpdate(successcb, updateSuccesscb, errorcb, updateErrorcb)`
-    * `resource.$remove(successcb, errorcb)`
+    * `resource.$save()`
+    * `resource.$update()`
+    * `resource.$saveOrUpdate()`
+    * `resource.$remove()`
 
 Resource `all` and `query` supported options:
   * `sort`: ex `Resource.all({ sort: {priority: 1} }, cb);`
