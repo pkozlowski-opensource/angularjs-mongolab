@@ -1,8 +1,9 @@
 [![Build Status](https://secure.travis-ci.org/angularjs-mongolab/resource-http.png)](http://travis-ci.org/angularjs-mongolab/resource-http)
+[![devDependency Status](https://david-dm.org/pkozlowski-opensource/angularjs-mongolab/dev-status.png?branch=master)](https://david-dm.org/pkozlowski-opensource/angularjs-mongolab#info=devDependencies)
 
-# Promise-aware [MongoLab](https://mongolab.com/home) $resource for [AngularJS](http://angularjs.org/)
+## Promise-aware [MongoLab](https://mongolab.com/home) $resource-like adapter for [AngularJS](http://angularjs.org/)
 
-##Introduction
+### Introduction
 
 This repository hosts a Mongolab [$resource](http://docs.angularjs.org/api/ngResource.$resource)-like adapter for [AngularJS](http://angularjs.org/).
 It is based on [$http](http://docs.angularjs.org/api/ng.$http) and is working with [promises](https://docs.angularjs.org/api/ng/service/$q).
@@ -10,10 +11,10 @@ It is based on [$http](http://docs.angularjs.org/api/ng.$http) and is working wi
 This is a small wrapper around the AngularJS $http that makes setting up and working with MongoLab easy. It has an interface very similar to $resource but works with promises.
 It significantly reduces the amount of boilerplate code one needs to write when interacting with MongoDB / MongoLab (especially around URLs handling, resource objects creation and identifiers handling).
 
-## Examples
+### Examples
 To see it in action check this plunker: (http://plnkr.co/edit/Bb8GSA?p=preview).
 
-## Usage instructions
+### Usage instructions
 
 Firstly you need to include both AngularJS and the `mongolabResourceHttp.js` script from this repository (see examples above for the exact URLs).
 
@@ -42,7 +43,7 @@ app.controller('AppController', function ($scope, Project) {
 });
 ```
 
-## Documentation
+### Documentation
 
 Since this $resource-like implementation is based on `$http` and returns a promise.
 Each resource created with the `$mongolabResourceHttp` will be equipped with the following methods:
@@ -68,12 +69,11 @@ Resource `all` and `query` supported options:
     ex `Resource.all({ fields: {name: 1, notes: 0} }, cb);`
   * `skip`: ex `Resource.all({ skip: 10 }, cb);`
 
-## Contributting
+### Contributting
 
 New contributions are always welcomed. Just open a pull request making sure that it contains tests, doc updates.
 Checked if the Travis-CI build is alright.
 
-## Contributtors
+### Contributtors
 
-* Hannes Finck (https://github.com/bluenavajo)
-* Tom Wilson (https://github.com/twilson63)
+https://github.com/pkozlowski-opensource/angularjs-mongolab/graphs/contributors
