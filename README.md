@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/angularjs-mongolab/resource-http.png)](http://travis-ci.org/angularjs-mongolab/resource-http)
+[![Build Status](https://secure.travis-ci.org/pkozlowski-opensource/angularjs-mongolab.png)](http://travis-ci.org/pkozlowski-opensource/angularjs-mongolab)
 [![devDependency Status](https://david-dm.org/pkozlowski-opensource/angularjs-mongolab/dev-status.png?branch=master)](https://david-dm.org/pkozlowski-opensource/angularjs-mongolab#info=devDependencies)
 
 ## Promise-aware [MongoLab](https://mongolab.com/home) $resource-like adapter for [AngularJS](http://angularjs.org/)
@@ -62,17 +62,15 @@ Each resource created with the `$mongolabResourceHttp` will be equipped with the
     * `resource.$remove()`
 
 Resource `all` and `query` supported options:
-  * `sort`: ex `Resource.all({ sort: {priority: 1} }, cb);`
-  * `limit`: ex `Resource.all({ limit: 10 }, cb);`
-  * `fields`: 
-    { 1 - Includes field, 0 - excludes field }
-    ex `Resource.all({ fields: {name: 1, notes: 0} }, cb);`
-  * `skip`: ex `Resource.all({ skip: 10 }, cb);`
+  * `sort`: ex.: `Resource.all({ sort: {priority: 1} });`
+  * `limit`: ex.: `Resource.all({ limit: 10 });`
+  * `fields`: `1` - includes a field, `0` - excludes a field, ex.: `Resource.all({ fields: {name: 1, notes: 0} });`
+  * `skip`: ex.: `Resource.all({ skip: 10 });`
 
 ### Contributting
 
 New contributions are always welcomed. Just open a pull request making sure that it contains tests, doc updates.
-Checked if the Travis-CI build is alright.
+Checked if the [Travis-CI build](https://travis-ci.org/pkozlowski-opensource/angularjs-mongolab) is alright.
 
 ### Contributtors
 
