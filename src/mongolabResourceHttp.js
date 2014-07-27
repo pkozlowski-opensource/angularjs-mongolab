@@ -22,7 +22,7 @@ angular.module('mongolabResourceHttp', [])
         };
 
         var preparyQueryParam = function (queryJson) {
-            return angular.isObject(queryJson) && !angular.equals(queryJson, {}) ? {q: JSON.stringify(queryJson)} : {};
+            return angular.isObject(queryJson) && Object.keys(queryJson).length ? {q: JSON.stringify(queryJson)} : {};
         };
 
         var Resource = function (data) {
