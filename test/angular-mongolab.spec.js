@@ -201,7 +201,8 @@ describe('mongolabResourceHttp', function () {
 
         it('issue 13 - should properly stringify query string with $or', function () {
             $httpBackend.expect('GET', collectionUrl('',
-                '&q=%7B%22$or%22:%5B%7B%22attrib1%22:%7B%22$regex%22:%22some%22,%22$options%22:%22i%22%7D%7D,%7B%22attrib2%22:%7B%22$regex%22:%22%22,%22$options%22:%22i%22%7D%7D%5D%7D')).respond([])
+                '&q=%7B%22$or%22:%5B%7B%22attrib1%22:%7B%22$regex%22:%22some%22,%22$options%22:%22i%22%7D%7D,%7B%22attrib2%22:%7B%22$regex%22:%22%22,%22$options%22:%22i%22%7D%7D%5D%7D'))
+                .respond([]);
             Project.query({"$or": [
                 {"attrib1": {"$regex": "some", "$options": "i"}},
                 {"attrib2": {"$regex": "", "$options": "i"}}
