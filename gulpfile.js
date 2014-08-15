@@ -16,7 +16,8 @@ var karmaCommonConf = {
     'bower_components/angular-mocks/angular-mocks.js',
     PATHS.src, PATHS.test
   ],
-  singleRun: true
+  singleRun: true,
+  reporters: ['dots']
 };
 
 gulp.task('lint', function () {
