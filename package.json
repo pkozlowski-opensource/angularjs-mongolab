@@ -1,7 +1,7 @@
 {
   "author": "https://github.com/pkozlowski-opensource/angularjs-mongolab-promise/graphs/contributors",
   "name": "angularjs-mongolab",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "1.0.0-RC1",
   "repository": {
     "type": "git",
     "url": "https://github.com/pkozlowski-opensource/angularjs-mongolab-promise.git"
