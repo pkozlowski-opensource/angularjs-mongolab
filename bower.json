@@ -1,5 +1,6 @@
 {
   "name": "angularjs-mongolab",
+  "main": "src/angular-mongolab.js",
   "devDependencies": {
     "angular-mocks": "1.2.22"
   }
