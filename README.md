@@ -16,7 +16,7 @@ To see it in action check this plunker: (http://plnkr.co/edit/Bb8GSA?p=preview).
 
 ### Usage instructions
 
-Firstly you need to include both AngularJS and the `angular-mongolab.js` script [https://github.com/pkozlowski-opensource/angularjs-mongolab/blob/master/src/angular-mongolab.js](from this repository).
+Firstly you need to include both AngularJS and the `angular-mongolab.js` script [https://github.com/pkozlowski-opensource/angularjs-mongolab/blob/master/src/angular-mongolab.js](https://github.com/pkozlowski-opensource/angularjs-mongolab/blob/master/src/angular-mongolab.js).
 
 Then, you need to configure 2 parameters:
 * MongoLab key (`API_KEY`)
